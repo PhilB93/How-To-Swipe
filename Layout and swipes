@@ -1,0 +1,68 @@
+class FirstFragment : Fragment() {
+
+    private lateinit var layout: ConstraintLayout
+
+
+
+    private var _binding: FirstFragmentBinding? = null
+
+    // This property is only valid between onCreateView and
+// onDestroyView.
+    private val binding get() = _binding!!
+
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FirstFragmentBinding.inflate(inflater, container, false)
+        val view = binding.root
+
+        //SWIPES
+
+        binding.layout.setOnTouchListener(object : OnSwipeTouchListener(context) {
+            override fun onSwipeLeft() {
+                super.onSwipeLeft()
+                Toast.makeText(
+                    context, "Swipe Left gesture detected",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
+
+            override fun onSwipeRight() {
+                super.onSwipeRight()
+                Toast.makeText(
+                    context,
+                    "Swipe Right gesture detected",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            }
+            override fun onSwipeUp() {
+                super.onSwipeUp()
+                Toast.makeText(context, "Swipe up gesture detected", Toast.LENGTH_SHORT)
+                    .show()
+                binding.score.text = viewModel.score.value.toString()
+            }
+
+            override fun onSwipeDown() {
+                super.onSwipeDown()
+                Toast.makeText(context, "Swipe down gesture detected", Toast.LENGTH_SHORT)
+                    .show()
+                binding.score.text = viewModel.score.value.toString()
+            }
+        })
+        }
+        return view
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+}
